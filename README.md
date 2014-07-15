@@ -79,8 +79,8 @@
       result
     ```
 
-* Keep lines fewer than 80 characters.
-* Avoid trailing whitespace.
+* Keep lines fewer than 100 characters.
+* Remove trailing whitespace.
 
 ## Syntax
 
@@ -196,32 +196,19 @@
     doSomething for elem in elements
     ```
 
-* Omit parentheses around parameters for methods that are part of an
-  internal DSL (e.g. Jasmine) and methods that are with  "keyword"
-  status in CoffeeScript (e.g. `alert`). Use parentheses around the
-  arguments of all other method invocations.
+* Omit parentheses around parameters for the first function call
+  on a line. Use parentheses around the arguments of all other
+  method invocations.
 
     ```coffee
     class Person
       constructor: (name, age) ->
-        @name = name
-        @age = age
+        @checkAge age
+        alert Math.max(age, 10)
 
-    temperance = new Person('Temperance', 30)
-    temperance.name
 
-    alert temperance.age
-    console.log temperance.age
-
-    x = Math.sin(y)
-    array.delete(e)
-    ```
-
-* Omit parenthesis for functions whose final argument is an anonymous function.
-
-    ```coffee
-    _.map [1, 2, 3], (num) ->
-      num * 3
+    x = Math.sin y
+    array.delete e, Person.maxAge(a)
     ```
 
 * Avoid `return` where not required.
@@ -246,12 +233,12 @@
       # bad
       doSomething = (options = {}) ->
         unless options['when'] == 'later'
-          output(self.options[:message])
+          output(self.options['message'])
 
       # good
       doSomething = (params = {}) ->
         unless params['when'] == 'later'
-          output(options[:message])
+          output(options['message'])
     ```
 
 
@@ -281,11 +268,13 @@
     if (v = @nextValue) == 'hello' ...
     ```
 
-* Use `or=` freely to initialize variables.
+* Use `or=` or `?=` freely to initialize variables.
 
     ```coffee
     # set name to Bozhidar, only if it's null or false
     name or= 'Bozhidar'
+    # set name to Bozhidar, only if it's null
+    name ?= 'Bozhidar'
     ```
 
 * Don't use `or=` to initialize boolean variables. (Consider what
@@ -398,7 +387,7 @@ would happen if the current value happened to be `false`.)
 * When designing class hierarchies make sure that they conform to the
   [Liskov Substitution Principle](http://en.wikipedia.org/wiki/Liskov_substitution_principle).
 * Try to make your classes as
-  [SOLID](http://en.wikipedia.org/wiki/SOLID_(object-oriented_design\))
+  [SOLID](http://en.wikipedia.org/wiki/SOLID_(object-oriented_design))
   as possible.
 * Prefer [duck-typing](http://en.wikipedia.org/wiki/Duck_typing) over inheritance.
 
